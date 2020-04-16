@@ -71,7 +71,7 @@ for verse in verses:
 
     #Optionally, replace the verse source names with their citations in the OBS profile
     try:
-        with fileinput.FileInput("OA_-_Facebook_Live.json", inplace=True) as file:
+        with fileinput.FileInput("OA__Facebook_Live.json", inplace=True) as file:
             for line in file:
                 print(line.replace('"Verse ' + str(num) + '"', '"' + verse["citation"] + '"'), end='')
     except:
@@ -85,7 +85,7 @@ dateStamp = d.strftime('%Y-%m-%d')
 
 #Optionally, if we replaced the verse headings above, update the date stamp so as not to overwrite the template
 try:    
-    with fileinput.FileInput("OA_-_Facebook_Live.json", inplace=True) as file:
+    with fileinput.FileInput("OA__Facebook_Live.json", inplace=True) as file:
         for line in file:
             print(line.replace('OA - Facebook Live', 'OA - Facebook Live - ' + dateStamp))
 except:
