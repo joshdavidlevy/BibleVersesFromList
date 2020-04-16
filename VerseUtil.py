@@ -1,4 +1,6 @@
 import json
+import fileinput
+from datetime import date
 
 #Load Books.json
 with open('Books.json') as f:
@@ -25,8 +27,6 @@ with open(filepath) as fp:
     cnt = 1
     while line:
         if (line.strip()):
-            print("Line {}: {}".format(cnt, line.strip()))
-
             splitLine = line.split()
             citation = splitLine.pop()
 
@@ -44,7 +44,6 @@ with open(filepath) as fp:
                 endVerse = citation.split(":")[1].split("-")[1]
             except:
                 endVerse = startVerse
-            print(book, chapter, startVerse, endVerse)
 
             for verse in range(int(startVerse), int(endVerse)+1):
                 text = ""
@@ -58,8 +57,10 @@ with open(filepath) as fp:
         line = fp.readline()
         cnt += 1
 
+
 # Output files for each verse
 num = 1
+
 for verse in verses:
     id = str(num)
     if (num < 10):
@@ -68,4 +69,24 @@ for verse in verses:
         file.write(verse["citation"]+"\n")
         file.write(verse["text"])
 
+    #Optionally, replace the verse source names with their citations in the OBS profile
+    try:
+        with fileinput.FileInput("OA_-_Facebook_Live.json", inplace=True) as file:
+            for line in file:
+                print(line.replace('"Verse ' + str(num) + '"', '"' + verse["citation"] + '"'), end='')
+    except:
+        pass
+    
     num += 1
+
+
+d = date.today()
+dateStamp = d.strftime('%Y-%m-%d')
+
+#Optionally, if we replaced the verse headings above, update the date stamp so as not to overwrite the template
+try:    
+    with fileinput.FileInput("OA_-_Facebook_Live.json", inplace=True) as file:
+        for line in file:
+            print(line.replace('OA - Facebook Live', 'OA - Facebook Live - ' + dateStamp))
+except:
+    pass
