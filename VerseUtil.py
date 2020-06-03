@@ -96,7 +96,6 @@ with open(filepath) as fp:
                         text = bibleData[book][chapter][str(verse)]
                     except:
                         try:
-                            # Single chapter books
                             text = bibleData[book][1][str(verse)]
                         except:
                             print("ERROR: Unable to find " + book + " " + chapter + ":" + str(verse))
@@ -115,7 +114,7 @@ for verse in verses:
     id = str(num)
     if (num < 10):
         id = "0" + str(num)
-    with open("Verse " + id + ".txt", 'w') as file:
+    with open("Verse " + id + ".txt", 'w', encoding='utf-8') as file:
         file.write(verse["citation"]+"\n")
         file.write(verse["text"])
 
